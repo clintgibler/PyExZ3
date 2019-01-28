@@ -21,10 +21,10 @@ from symbolic.explore import ExplorationEngine
 
 def exploreFunction(fn):
     engine = ExplorationEngine(createInvocation(fn), solver='z3')
-    generatedinputs, returnvals, path = engine.explore(0)
+    generatedInputs, returnVals, path = engine.explore(0)
     return generatedInputs, returnVals, path
 
 if __name__ == '__main__':
     import simple
-    return explore(simple.simple)
+    genInputs, returnVals, path = exploreFunction(simple.simple)
     print(returnVals)
