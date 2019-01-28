@@ -3,6 +3,7 @@
 import inspect
 from symbolic.invocation import FunctionInvocation
 from symbolic.symbolic_types import SymbolicInteger
+from symbolic.explore import ExplorationEngine
 
 # The built-in definition of len wraps the return value in an int() constructor, destroying any symbolic types.
 # By redefining len here we can preserve symbolic integer types.
@@ -16,8 +17,6 @@ def createInvocation(fn, reset=lambda: None):
         if not a in inv.getNames():
             inv.addArgumentConstructor(a, 0, lambda n,v: SymbolicInteger(n,v))
     return inv
-
-from symbolic.explore import ExplorationEngine
 
 def exploreFunction(fn):
     engine = ExplorationEngine(createInvocation(fn), solver='z3')

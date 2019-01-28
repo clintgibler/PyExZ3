@@ -1,4 +1,4 @@
-import utils
+import PyExZ3.utils as utils
 
 from symbolic.symbolic_types.symbolic_int import SymbolicInteger
 from symbolic.symbolic_types.symbolic_type import SymbolicType

@@ -1,6 +1,5 @@
 # Copyright: see copyright.txt
 
-import utils
 import inspect
 import functools
 
