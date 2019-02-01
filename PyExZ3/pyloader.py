@@ -18,8 +18,8 @@ def createInvocation(fn, reset=lambda: None):
             inv.addArgumentConstructor(a, 0, lambda n,v: SymbolicInteger(n,v))
     return inv
 
-def exploreFunction(fn, max_iters=0):
-    engine = ExplorationEngine(createInvocation(fn), solver='z3')
+def exploreFunction(fn, solver='z3', max_iters=0):
+    engine = ExplorationEngine(createInvocation(fn), solver=solver)
     generatedInputs, returnVals, path = engine.explore(max_iters)
     return generatedInputs, returnVals, path
 
