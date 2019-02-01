@@ -10,16 +10,16 @@ from symbolic.explore import ExplorationEngine
 import builtins
 builtins.len = (lambda x : x.__len__())
 
-def createInvocation(fn, reset=lambda: None):
+def createInvocation(fn, symarg, reset=lambda: None):
     inv = FunctionInvocation(fn, reset)
     argspec = inspect.getargspec(fn)
     for a in argspec.args:
         if not a in inv.getNames():
-            inv.addArgumentConstructor(a, 0, lambda n,v: SymbolicInteger(n,v))
+            inv.addArgumentConstructor(a, 0, symarg(n,v))
     return inv
 
-def exploreFunction(fn, solver='z3', max_iters=0):
-    engine = ExplorationEngine(createInvocation(fn), solver=solver)
+def exploreFunction(fn, solver='z3', max_iters=0, symarg=lambda n, v: SymbolicInteger(n, v)):
+    engine = ExplorationEngine(createInvocation(fn, symarg), solver=solver)
     generatedInputs, returnVals, path = engine.explore(max_iters)
     return generatedInputs, returnVals, path
 
