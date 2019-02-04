@@ -26,42 +26,42 @@ parser.add_option("--z3", dest="cvc", action="store_false", help="Use the Z3 SMT
 (options, args) = parser.parse_args()
 
 if not (options.logfile == ""):
-	logging.basicConfig(filename=options.logfile,level=logging.DEBUG)
+    logging.basicConfig(filename=options.logfile,level=logging.DEBUG)
 
 if len(args) == 0 or not os.path.exists(args[0]):
-	parser.error("Missing app to execute")
-	sys.exit(1)
+    parser.error("Missing app to execute")
+    sys.exit(1)
 
 solver = "cvc" if options.cvc else "z3"
 
 filename = os.path.abspath(args[0])
-	
+    
 # Get the object describing the application
 app = loaderFactory(filename,options.entry)
 if app == None:
-	sys.exit(1)
+    sys.exit(1)
 
 print ("Exploring " + app.getFile() + "." + app.getEntry())
 
 result = None
 try:
-	engine = ExplorationEngine(app.createInvocation(), solver=solver)
-	generatedInputs, returnVals, path = engine.explore(options.max_iters)
-	# check the result
-	result = app.executionComplete(returnVals)
+    engine = ExplorationEngine(app.createInvocation(), solver=solver)
+    generatedInputs, returnVals, path = engine.explore(options.max_iters)
+    # check the result
+    result = app.executionComplete(returnVals)
 
-	# output DOT graph
-	if (options.dot_graph):
-		file = open(filename+".dot","w")
-		file.write(path.toDot())	
-		file.close()
+    # output DOT graph
+    if (options.dot_graph):
+        file = open(filename+".dot","w")
+        file.write(path.toDot())    
+        file.close()
 
 except ImportError as e:
-	# createInvocation can raise this
-	logging.error(e)
-	sys.exit(1)
+    # createInvocation can raise this
+    logging.error(e)
+    sys.exit(1)
 
 if result == None or result == True:
-	sys.exit(0);
+    sys.exit(0);
 else:
-	sys.exit(1);	
+    sys.exit(1);    
